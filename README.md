@@ -36,4 +36,5 @@ I've only set this up once so take this with a grain of salt.
 * The initial `cdk deploy` got stuck. I'm not sure what I did wrong but it got stuck on ECS service creation for 30 minutes. I checked and the ECS nodes came up. A bit of searching online suggested that maybe I configured it in such a way that it could never become healthy.
   * Attempt 2: Found that there was insufficient memory for the task. I'm rounding it down from 2048 to 2000 and increasing the instance type.
     * Attempt 3: It was stopping and restarting "Error: '' is not a valid port number."
+    * Attempt 4: "[2021-04-03 18:17:42 +0000] [6] [ERROR] Can't connect to ('0.0.0.0', 80)"
 * I wasn't sure how to choose between the EC2 and Fargate templates. I picked the EC2 one because I could pick the instance type and feel good about keeping the cost low.

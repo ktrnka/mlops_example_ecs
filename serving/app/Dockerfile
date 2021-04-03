@@ -13,6 +13,8 @@ WORKDIR /opt/webapp
 RUN adduser --disabled-password web_user
 USER web_user
 
+EXPOSE 8000
+
 # Run the app.
 ENV PYTHONPATH "${PYTHONPATH}:app"
-CMD gunicorn --bind 0.0.0.0:80 main:app
+CMD gunicorn --bind 0.0.0.0:8000 main:app
