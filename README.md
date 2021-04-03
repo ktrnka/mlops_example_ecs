@@ -27,5 +27,11 @@ I've only set this up once so take this with a grain of salt.
 
 # TO DO
 
+* Switch to FastAPI. If I've setup this repo right, it should be possible to do a zero-downtime change
+
 # Notes on this version
 
+* The initial `cdk synth` creates a lot of resources. I'm slightly worried that I don't understand it, though that's probably no different than lambda or heroku
+* `cdk` and PyCharm terminal don't play nice - better to run in a separate terminal window
+* The initial `cdk deploy` seems to take quite a while - it's been running for about 15 min now
+* I wasn't sure how to choose between the EC2 and Fargate templates. I picked the EC2 one because I could pick the instance type and feel good about keeping the cost low.
