@@ -31,12 +31,11 @@ class TextClassifierService(cdk.Stack):
             self,
             "TextClassifierService",
             cluster=cluster,
-            memory_limit_mib=1024,
-            desired_count=2,
+            memory_limit_mib=2048,
             task_image_options=ecs_patterns.ApplicationLoadBalancedTaskImageOptions(
                 image=ecs.ContainerImage.from_docker_image_asset(docker_image),
             ),
-            min_healthy_percent=50,
+            # min_healthy_percent=50,
             public_load_balancer=True
         )
 
