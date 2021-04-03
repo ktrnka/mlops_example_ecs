@@ -34,10 +34,12 @@ class TextClassifierService(cdk.Stack):
             memory_limit_mib=2000,
             task_image_options=ecs_patterns.ApplicationLoadBalancedTaskImageOptions(
                 image=ecs.ContainerImage.from_docker_image_asset(docker_image),
+                container_port=8000
             ),
-            # min_healthy_percent=50,
             public_load_balancer=True
         )
+
+        service.target_group.configure_health_check(path="/health")
 
         # something like this is probably necessary
         # loadBalancedFargateService.targetGroup.configureHealthCheck({

@@ -25,3 +25,9 @@ class Model(Resource):
         prediction = str(model.predict([data["text"]])[0])
 
         return jsonify({"category": prediction})
+
+
+@api.route("/health")
+class Health(Resource):
+    def get(self):
+        return "ok"
