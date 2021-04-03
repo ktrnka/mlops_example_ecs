@@ -1,0 +1,9 @@
+stages:
+  train:
+    cmd: python training/src/main.py serving/app/data/ serving/app/requirements.txt
+    deps:
+    - training/
+    outs:
+    - serving/app/data/model.joblib.gz
+    metrics:
+    - serving/app/data/metrics.json

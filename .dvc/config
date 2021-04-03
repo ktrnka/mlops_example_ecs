@@ -1,0 +1,4 @@
+[core]
+    remote = main_remote
+['remote "main_remote"']
+    url = s3://trnka-dvc-20210403160114353300000001/dvc
