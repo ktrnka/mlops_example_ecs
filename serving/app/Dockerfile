@@ -1,17 +1,19 @@
-FROM public.ecr.aws/lambda/python:3.8
+# Grab the latest alpine image
+FROM python:3.8-slim
 
-# requirements
-COPY requirements.txt ./
-RUN python3.8 -m pip install --no-cache-dir -r requirements.txt
+# Install dependencies
+ADD ./requirements.txt /tmp/requirements.txt
+RUN pip3 install --no-cache-dir -q -r /tmp/requirements.txt
 
-# code
-COPY app.py ./
+# Add our code
+ADD ./ /opt/webapp/
+WORKDIR /opt/webapp
 
-# data
-COPY data ./data
+# Run the image as a non-root user
+RUN adduser --disabled-password web_user
+USER web_user
 
-# This reduces joblib warnings.
-# Some docs say it'll speed things up, others say it'll slow things down. I've only done 1 test
-#ENV OPENBLAS_NUM_THREADS=1
-
-CMD ["app.lambda_handler"]
+# Run the app.  CMD is required to run on Heroku
+# $PORT is set by Heroku
+ENV PYTHONPATH "${PYTHONPATH}:app"
+CMD gunicorn --bind 0.0.0.0:$PORT main:app
