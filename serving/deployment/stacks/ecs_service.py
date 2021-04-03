@@ -30,7 +30,7 @@ class TextClassifierService(cdk.Stack):
         service = ecs_patterns.ApplicationLoadBalancedEc2Service(
             self,
             "TextClassifierService",
-            cluster,
+            cluster=cluster,
             memory_limit_mib=1024,
             desired_count=2,
             task_image_options=ecs_patterns.ApplicationLoadBalancedTaskImageOptions(

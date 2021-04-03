@@ -19,7 +19,7 @@ setuptools.setup(
     packages=setuptools.find_packages(where="stacks"),
 
     install_requires=[
-        "aws-cdk.core==1.93.0",
+        "aws-cdk.core",
         "aws_cdk.aws_ecs_patterns",
         "aws_cdk.aws_ecr_assets"
     ],
