@@ -7,7 +7,7 @@ api = Api(validate=True)
 app = Flask(__name__)
 api.init_app(app)
 
-model_path = os.path.join(os.path.dirname(__file__), "../data/model.joblib.gz", )
+model_path = os.path.join(os.path.dirname(__file__), "data/model.joblib.gz", )
 model = joblib.load(model_path)
 
 
