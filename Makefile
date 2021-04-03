@@ -18,11 +18,13 @@ setup-development-pipenv:
 	SYSTEM_VERSION_COMPAT=1 pipenv install --skip-lock -r training/requirements.txt
 	SYSTEM_VERSION_COMPAT=1 pipenv install --skip-lock -r serving/app/requirements.txt
 	# pipenv can't handle the -e . syntax but pip can
-	SYSTEM_VERSION_COMPAT=1 cd serving/deployment && pipenv run pip install -r requirements.txt
+	SYSTEM_VERSION_COMPAT=1 cd serving/deployment && pipenv run pip install -r requirements.txt --upgrade
 
 # run this inside the virtual environment
 train:
 	dvc repro train
 
+# run this inside the virtual environment
+# it isn't wrapped with pipenv b/c you sometimes run this locally (pipenv) and sometimes on the server (not pipenv)
 test-service:
-	PYTHONPATH=. pipenv run python serving/tests/test_service.py
+	PYTHONPATH=. python serving/tests/test_service.py
