@@ -21,7 +21,7 @@ class TextClassifierService(cdk.Stack):
 
         cluster.add_capacity(
             "TextClassifierScalingGroup",
-            instance_type=ec2.InstanceType("t3.small"),
+            instance_type=ec2.InstanceType("t3.medium"),
             desired_capacity=1,
             max_capacity=4,
             min_capacity=1
@@ -31,11 +31,17 @@ class TextClassifierService(cdk.Stack):
             self,
             "TextClassifierService",
             cluster=cluster,
-            memory_limit_mib=2048,
+            memory_limit_mib=2000,
             task_image_options=ecs_patterns.ApplicationLoadBalancedTaskImageOptions(
                 image=ecs.ContainerImage.from_docker_image_asset(docker_image),
             ),
             # min_healthy_percent=50,
             public_load_balancer=True
         )
+
+        # something like this is probably necessary
+        # loadBalancedFargateService.targetGroup.configureHealthCheck({
+        #     path: "/custom-health-path",
+        # });
+
 

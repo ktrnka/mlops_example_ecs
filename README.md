@@ -33,5 +33,6 @@ I've only set this up once so take this with a grain of salt.
 
 * The initial `cdk synth` creates a lot of resources. I'm slightly worried that I don't understand it, though that's probably no different than lambda or heroku
 * `cdk` and PyCharm terminal don't play nice - better to run in a separate terminal window
-* The initial `cdk deploy` seems to take quite a while - it's been running for about 15 min now
+* The initial `cdk deploy` got stuck. I'm not sure what I did wrong but it got stuck on ECS service creation for 30 minutes. I checked and the ECS nodes came up. A bit of searching online suggested that maybe I configured it in such a way that it could never become healthy.
+  * Attempt 2: Found that there was insufficient memory for the task. I'm rounding it down from 2048 to 2000 and increasing the instance type. 
 * I wasn't sure how to choose between the EC2 and Fargate templates. I picked the EC2 one because I could pick the instance type and feel good about keeping the cost low.
