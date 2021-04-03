@@ -13,7 +13,6 @@ WORKDIR /opt/webapp
 RUN adduser --disabled-password web_user
 USER web_user
 
-# Run the app.  CMD is required to run on Heroku
-# $PORT is set by Heroku
+# Run the app.
 ENV PYTHONPATH "${PYTHONPATH}:app"
-CMD gunicorn --bind 0.0.0.0:$PORT main:app
+CMD gunicorn --bind 0.0.0.0:80 main:app
