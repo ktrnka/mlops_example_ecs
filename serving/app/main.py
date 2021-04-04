@@ -13,12 +13,22 @@ class TextInput(BaseModel):
     text: str
 
 
-@app.post("/predict")
-async def classify_text(text_input: TextInput):
-    # TODO: Return the class proba
-    prediction = str(model.predict([text_input.text])[0])
+class ClassificationOutput(BaseModel):
+    category: str
+    probability: float
 
-    return {"category": prediction}
+
+@app.post("/predict", response_model=ClassificationOutput)
+async def classify_text(text_input: TextInput) -> ClassificationOutput:
+    prediction = str(model.predict([text_input.text])[0])
+    proba = float(max(model.predict_proba([text_input.text])[0]))
+
+    response = ClassificationOutput(
+        category=prediction,
+        probability=proba
+    )
+
+    return response
 
 
 @app.get("/health")
