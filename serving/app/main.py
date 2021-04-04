@@ -3,7 +3,7 @@ import joblib
 import os.path
 from flask_restx import Api, Resource, fields
 
-api = Api(validate=True)
+api = Api(validate=True, doc="/docs")
 app = Flask(__name__)
 api.init_app(app)
 
