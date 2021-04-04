@@ -17,4 +17,4 @@ EXPOSE 8000
 
 # Run the app.
 ENV PYTHONPATH "${PYTHONPATH}:app"
-CMD gunicorn --bind 0.0.0.0:8000 main:app
+CMD uvicorn main:app --host 0.0.0.0 --port 8000
