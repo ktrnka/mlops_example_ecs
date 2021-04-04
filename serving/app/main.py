@@ -1,33 +1,26 @@
-from flask import Flask, request, jsonify
 import joblib
 import os.path
-from flask_restx import Api, Resource, fields
+from fastapi import FastAPI
+from pydantic import BaseModel
 
-api = Api(validate=True, doc="/docs")
-app = Flask(__name__)
-api.init_app(app)
+app = FastAPI()
 
 model_path = os.path.join(os.path.dirname(__file__), "data/model.joblib.gz", )
 model = joblib.load(model_path)
 
 
-@api.route("/predict")
-class Model(Resource):
-    input = api.model("Input", {
-        'text': fields.String(required=True, description="Text to classify")
-    })
-
-    @api.expect(input)
-    def post(self):
-        data = request.json
-
-        # TODO: Return the class proba
-        prediction = str(model.predict([data["text"]])[0])
-
-        return jsonify({"category": prediction})
+class TextInput(BaseModel):
+    text: str
 
 
-@api.route("/health")
-class Health(Resource):
-    def get(self):
-        return "OK", 200
+@app.post("/predict")
+def classify_text(text_input: TextInput):
+    # TODO: Return the class proba
+    prediction = str(model.predict([text_input.text])[0])
+
+    return {"category": prediction}
+
+
+@app.get("/health")
+def health():
+    return "OK"
