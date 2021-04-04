@@ -14,7 +14,7 @@ class TextInput(BaseModel):
 
 
 @app.post("/predict")
-def classify_text(text_input: TextInput):
+async def classify_text(text_input: TextInput):
     # TODO: Return the class proba
     prediction = str(model.predict([text_input.text])[0])
 
@@ -22,5 +22,5 @@ def classify_text(text_input: TextInput):
 
 
 @app.get("/health")
-def health():
+async def health():
     return "OK"
