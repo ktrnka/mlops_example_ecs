@@ -30,4 +30,4 @@ class Model(Resource):
 @api.route("/health")
 class Health(Resource):
     def get(self):
-        return "ok"
+        return "OK", 200

@@ -32,9 +32,11 @@ I've only set this up once so take this with a grain of salt.
 * Get Github Actions deployment working - right now I'm just working with manual deployment.
     * First step - use the deployment user locally
 * Test that the health endpoint is helpful if I break Docker
-    * It doesn't help if the memory setting is wrong
-* Setup a timeout on the stack update, which would prevent a deploy from hanging when memory is misconfigured.
+    * It sorta worked, though it took an hour to give up on unhealthy instances. And I had to do some weird memory configuration
+    * Setup a timeout on the stack update, which would prevent a deploy from hanging when memory is misconfigured.
 * Add something to CDK to prevent memory misconfiguration.
+* https: To do this, I need to figure out how to make a certificate
+* domain name: It looks like it'd work if I had a domain on Route53
 
 # Notes on this version
 
@@ -45,3 +47,11 @@ I've only set this up once so take this with a grain of salt.
     * I've also tried manually canceling the stack deploy after an hour, which causes an update rollback. The rollback has been stuck in progress for about 13 minutes. I couldn't cancel the rollback. Eventually I gave up and deleted the ECS Service that was stuck trying to update and after a few minutes CloudFormation updated the status of the Stack. Then I began `cdk destroy` again
 * I also had problems binding gunicorn to port 80 so I changed ports.
 * I wasn't sure how to choose between the EC2 and Fargate templates. I picked the EC2 one because I could pick the instance type and feel good about keeping the cost low.
+
+## Good things about ECS
+
+* When I try to deploy broken code, it never goes live.
+
+## Bad things about ECS
+
+* It's designed to support ECS clusters with multiple instance types, which makes the CDK interfaces harder to use and therefore makes them error-prone. 
