@@ -41,9 +41,4 @@ class TextClassifierService(cdk.Stack):
 
         service.target_group.configure_health_check(path="/health")
 
-        # something like this is probably necessary
-        # loadBalancedFargateService.targetGroup.configureHealthCheck({
-        #     path: "/custom-health-path",
-        # });
-
 
