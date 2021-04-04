@@ -28,12 +28,12 @@ I've only set this up once so take this with a grain of salt.
 
 # TO DO
 
-* Switch to FastAPI. If I've setup this repo right, it should be possible to do a zero-downtime change
 * Get Github Actions deployment working - right now I'm just working with manual deployment.
     * First step - use the deployment user locally
 * Test that the health endpoint is helpful if I break Docker
     * It sorta worked, though it took an hour to give up on unhealthy instances. And I had to do some weird memory configuration
     * Setup a timeout on the stack update, which would prevent a deploy from hanging when memory is misconfigured.
+    * It worked correctly on a subsequent run
 * Add something to CDK to prevent memory misconfiguration.
 * https: To do this, I need to figure out how to make a certificate
 * domain name: It looks like it'd work if I had a domain on Route53
@@ -50,8 +50,16 @@ I've only set this up once so take this with a grain of salt.
 
 ## Good things about ECS
 
-* When I try to deploy broken code, it never goes live.
+* ECS doesn't swap to new code until it's proven healthy
+* I'm confident that it could be configured to meet various company security requirements
 
 ## Bad things about ECS
 
-* It's designed to support ECS clusters with multiple instance types, which makes the CDK interfaces harder to use and therefore makes them error-prone. 
+* The CDK interface for ECS is error prone because it's designed to support clusters with multiple instance types.
+* You have to do a bunch of work to setup https
+* Deployments are slow
+
+## EC2 vs Fargate
+
+* I read that Fargate manages more for you but can cost more. From the options in CDK it doesn't look like it configures all that much more.
+* Fargate could only be configured down to 1gb ram but EC2 could go lower.
