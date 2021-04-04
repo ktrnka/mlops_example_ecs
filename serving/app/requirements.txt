@@ -1,4 +1,4 @@
+fastapi
 joblib==1.0.1
 scikit-learn==0.24.1
-fastapi
 uvicorn[standard]

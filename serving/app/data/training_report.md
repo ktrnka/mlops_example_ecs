@@ -1,6 +1,6 @@
 
 # Evaluation on test set
-    Model: 81.7%
+    Model: 82.3%
     Baseline / predict majority: 5.3%
 
 # Data info

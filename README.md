@@ -46,7 +46,7 @@ I've only set this up once so take this with a grain of salt.
     * I've solved it by destroying and recreating the stack which makes a new URL.
     * I've also tried manually canceling the stack deploy after an hour, which causes an update rollback. The rollback has been stuck in progress for about 13 minutes. I couldn't cancel the rollback. Eventually I gave up and deleted the ECS Service that was stuck trying to update and after a few minutes CloudFormation updated the status of the Stack. Then I began `cdk destroy` again
 * I also had problems binding gunicorn to port 80 so I changed ports.
-* I wasn't sure how to choose between the EC2 and Fargate templates. I picked the EC2 one because I could pick the instance type and feel good about keeping the cost low.
+* The first few requests to a newly deployed API can be significantly slower - why is that?
 
 ## Good things about ECS
 

@@ -1,0 +1,16 @@
+schema: '2.0'
+stages:
+  train:
+    cmd: python training/src/main.py serving/app/data/ serving/app/requirements.txt
+    deps:
+    - path: training/
+      md5: ebca6464564d198028c31c2cef86450e.dir
+      size: 4118
+      nfiles: 2
+    outs:
+    - path: serving/app/data/metrics.json
+      md5: 308bcc59e4209bc52ac686138af94eb5
+      size: 150
+    - path: serving/app/data/model.joblib.gz
+      md5: dc9e7c4c77a86faf447559a7561aa14a
+      size: 154299266
