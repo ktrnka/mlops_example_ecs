@@ -21,7 +21,7 @@ class TextClassifierService(cdk.Stack):
 
         cluster.add_capacity(
             "TextClassifierScalingGroup",
-            instance_type=ec2.InstanceType("t3.medium"),
+            instance_type=ec2.InstanceType("t3.small"),
             desired_capacity=1,
             max_capacity=4,
             min_capacity=1
@@ -31,7 +31,7 @@ class TextClassifierService(cdk.Stack):
             self,
             "TextClassifierService",
             cluster=cluster,
-            memory_limit_mib=2000,
+            memory_limit_mib=1000,
             task_image_options=ecs_patterns.ApplicationLoadBalancedTaskImageOptions(
                 image=ecs.ContainerImage.from_docker_image_asset(docker_image),
                 container_port=8000
