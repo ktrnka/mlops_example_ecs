@@ -9,8 +9,8 @@ stages:
       nfiles: 2
     outs:
     - path: serving/app/data/metrics.json
-      md5: 308bcc59e4209bc52ac686138af94eb5
+      md5: fc1c99506654bb0350f35c9431e41292
       size: 150
     - path: serving/app/data/model.joblib.gz
-      md5: dc9e7c4c77a86faf447559a7561aa14a
-      size: 154299266
+      md5: e4120bcd8df8f61b4d80cccafae04f88
+      size: 154298650
