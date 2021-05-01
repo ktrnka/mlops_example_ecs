@@ -2,7 +2,8 @@ from aws_cdk import (core as cdk,
                      aws_ecr_assets as ecr_assets,
                      aws_ecs_patterns as ecs_patterns,
                      aws_ecs as ecs,
-                     aws_ec2 as ec2)
+                     aws_ec2 as ec2,
+                     aws_elasticloadbalancingv2 as elb)
 
 class TextClassifierService(cdk.Stack):
     def __init__(self, scope: cdk.Construct, id: str):
@@ -21,7 +22,7 @@ class TextClassifierService(cdk.Stack):
 
         cluster.add_capacity(
             "TextClassifierScalingGroup",
-            instance_type=ec2.InstanceType("t3.small"),
+            instance_type=ec2.InstanceType("t3.micro"),
             desired_capacity=1,
             max_capacity=4,
             min_capacity=1
