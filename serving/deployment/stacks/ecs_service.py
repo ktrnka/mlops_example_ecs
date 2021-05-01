@@ -27,12 +27,14 @@ class TextClassifierService(cdk.Stack):
             min_capacity=1
         )
 
-        service = ecs_patterns.ApplicationLoadBalancedEc2Service(
+        service = ecs_patterns.ApplicationLoadBalancedFargateService(
             self,
             "TextClassifierService",
             cluster=cluster,
             # if this is greater than the amount on the instance types, the deployment will hang indefinitely
-            memory_limit_mib=500,
+            # also note some pairs of memory and cpu settings are invalid
+            memory_limit_mib=512,
+            cpu=256,
             task_image_options=ecs_patterns.ApplicationLoadBalancedTaskImageOptions(
                 image=ecs.ContainerImage.from_docker_image_asset(docker_image),
                 container_port=8000
