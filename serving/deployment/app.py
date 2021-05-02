@@ -5,5 +5,5 @@ from stacks.ecs_service import TextClassifierService
 
 
 app = cdk.App()
-TextClassifierService(app, "ExampleEcsTextClassifierStack")
+TextClassifierService(app, "ExampleFargateTextClassifier")
 app.synth()

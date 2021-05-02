@@ -16,11 +16,9 @@ class TextClassifierService(cdk.Stack):
 
         docker_image = ecr_assets.DockerImageAsset(
             self,
-            "EcsTextClassifierServiceImage",
+            "TextClassifierImage",
             directory="../app"
         )
-
-        print(f"git sha: {get_git_revision_short_hash()}")
 
         service = ecs_patterns.ApplicationLoadBalancedFargateService(
             self,
