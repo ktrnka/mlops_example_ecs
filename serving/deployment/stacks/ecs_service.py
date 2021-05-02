@@ -15,35 +15,10 @@ class TextClassifierService(cdk.Stack):
             directory="../app"
         )
 
-        cluster = ecs.Cluster(
-            self,
-            "TextClassifierCluster"
-        )
-
-        cluster.add_capacity(
-            "TextClassifierScalingGroup",
-            instance_type=ec2.InstanceType("t3.micro"),
-            desired_capacity=1,
-            max_capacity=4,
-            min_capacity=1
-        )
-
-        # TODO: test that this works. It didn't trigger at 1024 memory limit
-        # this should prevent stuck deployments if the min memory is lower than what's available on the instance
-        cluster.add_capacity(
-            "OverflowGroupIfMainLacksMemory",
-            instance_type=ec2.InstanceType("t3.2xlarge"),
-            desired_capacity=0,
-            max_capacity=1,
-            min_capacity=0
-        )
-
         service = ecs_patterns.ApplicationLoadBalancedFargateService(
             self,
             "TextClassifierService",
-            cluster=cluster,
-            # if this is greater than the amount on the instance types, the deployment will hang indefinitely
-            # also note some pairs of memory and cpu settings are invalid
+            # note some pairs of memory and cpu settings are invalid
             memory_limit_mib=512,
             cpu=256,
             task_image_options=ecs_patterns.ApplicationLoadBalancedTaskImageOptions(
