@@ -6,7 +6,7 @@ This repo is another in my series of MLops examples to show the basics, such as:
 * Hosting the web service
 * Pull request / review concepts, like reviewing a model build, reviewing service changes, and basic testing for the service
 
-This repo uses CDK to deploy machine learning models to an ECS cluster on EC2 with Docker.
+This repo uses CDK to deploy machine learning models to Fargate with Docker.
 
 # Setup
 
@@ -35,35 +35,33 @@ This repo uses CDK to deploy machine learning models to an ECS cluster on EC2 wi
 # TO DO
 
 * Check that the deployment user has permissions to create/update the ECS cluster
-* Add a check to prevent memory misconfiguration in CDK
 * https
 
 # Notes on this version
 
 * The initial `cdk synth` creates a lot of resources. I'm slightly worried that I don't understand it, though reading online it sounds like that's normal for ECS.
 * `cdk` and PyCharm terminal don't play nice - better to run in a separate terminal window
-* When the ECS task is defined with a memory requirement higher than what's available in the cluster, the deployment hangs, waiting for just the right node to show up in the cluster (which doesn't happen). If you CTRL-C the deployment, the service will still be stuck mid-deployment which also prevents any new deployments. 
-    * One time I solved it by destroying and recreating the stack, but that's not ideal.
-    * Another time I tried manually canceling the stack deploy, which triggers an update rollback. But then it got stuck in updating. I had to manually delete the ECS Service at that point to even run `cdk destroy`.
-* I had problems binding gunicorn to port 80 so I changed to 8000
+* It wasn't working with `gunicorn` on port 80 so I switched to 8000
 * The first few requests to a newly deployed API can be significantly slower - why is that? Is that the service? Or Postman?
 * Notes on health checking with circuit breaker
     * One time it got stuck waiting for new instances to appear and auto scaling didn't seem to be running, so I had to manually increase to 2 instances and then it deployed and cycled through failed health checks a few times before finally the status was updated to a failed state. 
     * The health check logic worked correctly on a subsequent run
 
+## Comparison against EC2
 
-## Good things about ECS
+I previously tried using `ApplicationLoadBalancedEc2Service` instead of Fargate. The EC2 version could get stuck if the task memory/cpu requirements weren't compatible with the instances in the cluster. Once it's stuck it's tough to get unstuck. The fastest way was to manually add capacity to the cluster. Sometimes I had to destroy the stack to proceed.
 
-* ECS doesn't swap to new code until it's proven healthy
-* I'm confident that it could be configured to meet various company security requirements
+I've read that Fargate is more expensive but I haven't checked costs because I'm only running it for a couple hours at a time.
 
-## Bad things about ECS
+## Comparison against Lambda
 
-* The CDK interface for ECS is error prone because it's designed to support clusters with multiple instance types.
-* You have to do a bunch of work to setup https
-* Deployments are slow
+* There isn't much of a cold start problem. With Lambda, cold starts were 15 sec or more. With this, cold starts are <1 second.
+* Setting up https on lambda is trivial but a pain in the butt for ECS 
+* It doesn't swap to new code until the health check passes 
+* Deployments seem slower than Lambda
 
-## EC2 vs Fargate
+## Comparison against Heroku
 
-* I read that Fargate manages more for you but can cost more. From the options in CDK it doesn't look like it configures all that much more.
-* Fargate could only be configured down to 1gb ram but EC2 could go lower.
+* https is harder on ECS 
+* I'm more confident that this ECS stack could be HIPAA compliant 
+* Docker deploys seem faster on Heroku
