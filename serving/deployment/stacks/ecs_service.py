@@ -28,6 +28,16 @@ class TextClassifierService(cdk.Stack):
             min_capacity=1
         )
 
+        # TODO: test that this works. It didn't trigger at 1024 memory limit
+        # this should prevent stuck deployments if the min memory is lower than what's available on the instance
+        cluster.add_capacity(
+            "OverflowGroupIfMainLacksMemory",
+            instance_type=ec2.InstanceType("t3.2xlarge"),
+            desired_capacity=0,
+            max_capacity=1,
+            min_capacity=0
+        )
+
         service = ecs_patterns.ApplicationLoadBalancedFargateService(
             self,
             "TextClassifierService",
@@ -39,6 +49,8 @@ class TextClassifierService(cdk.Stack):
             task_image_options=ecs_patterns.ApplicationLoadBalancedTaskImageOptions(
                 image=ecs.ContainerImage.from_docker_image_asset(docker_image),
                 container_port=8000
+
+                # TODO: try environment={git_sha: code_version} for passing info on the build to the execution
             ),
             public_load_balancer=True,
 
