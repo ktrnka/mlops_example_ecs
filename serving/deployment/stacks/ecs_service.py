@@ -39,6 +39,7 @@ class TextClassifierService(cdk.Stack):
             circuit_breaker=ecs.DeploymentCircuitBreaker(rollback=True)
         )
 
-        service.target_group.configure_health_check(path="/health")
+        service.target_group.configure_health_check(path="/health", interval=Duration.seconds(10))
+        # service.target_group.
 
 

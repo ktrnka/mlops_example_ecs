@@ -10,10 +10,12 @@ model = joblib.load(model_path)
 
 
 class TextInput(BaseModel):
+    """Basic input to the classifier"""
     text: str
 
 
 class ClassificationOutput(BaseModel):
+    """Multiclass prediction output"""
     category: str
     probability: float
 
