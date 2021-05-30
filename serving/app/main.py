@@ -15,7 +15,7 @@ class TextInput(BaseModel):
 
 
 class ClassificationOutput(BaseModel):
-    """Multiclass prediction output"""
+    """Prediction output"""
     category: str
     probability: float
 

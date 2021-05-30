@@ -24,8 +24,8 @@ class TextClassifierService(cdk.Stack):
             self,
             "TextClassifierService",
             # note some pairs of memory and cpu settings are invalid
-            memory_limit_mib=512,
-            cpu=256,
+            memory_limit_mib=512 * 4,
+            cpu=256 * 4,
             task_image_options=ecs_patterns.ApplicationLoadBalancedTaskImageOptions(
                 image=ecs.ContainerImage.from_docker_image_asset(docker_image),
                 container_port=8000,
