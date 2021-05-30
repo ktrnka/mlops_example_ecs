@@ -21,11 +21,11 @@ class ClassificationOutput(BaseModel):
 @app.post("/predict", response_model=ClassificationOutput)
 async def classify_text(text_input: TextInput) -> ClassificationOutput:
     prediction = str(model.predict([text_input.text])[0])
-    proba = float(max(model.predict_proba([text_input.text])[0]))
+    probability = float(max(model.predict_proba([text_input.text])[0]))
 
     response = ClassificationOutput(
         category=prediction,
-        probability=proba
+        probability=probability
     )
 
     return response
