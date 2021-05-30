@@ -41,7 +41,8 @@ class TextClassifierService(cdk.Stack):
 
         service.target_group.configure_health_check(path="/health", interval=cdk.Duration.seconds(10))
 
+        # the default is 5 minutes which adds significant time to deployments
         # see https://docs.aws.amazon.com/cdk/api/latest/python/aws_cdk.aws_elasticloadbalancingv2/ApplicationTargetGroup.html#aws_cdk.aws_elasticloadbalancingv2.ApplicationTargetGroup.set_attribute
-        service.target_group.set_attribute("deregistration_delay.timeout_seconds", "60")
+        service.target_group.set_attribute("deregistration_delay.timeout_seconds", "30")
 
 
