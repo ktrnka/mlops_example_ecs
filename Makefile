@@ -27,4 +27,18 @@ train:
 # run this inside the virtual environment if local
 # it isn't wrapped with pipenv b/c you sometimes run this locally (pipenv) and sometimes on the server (not pipenv)
 test-service:
-	PYTHONPATH=. python serving/tests/test_service.py
+	PYTHONPATH=. python3.8 serving/tests/test_service.py
+
+# check if an env var is set. You can use this by adding dependencies like require-variable-AWS-REGION
+require-variable-%: GUARDS
+	@ if [ -z '${${*}}' ]; then echo 'Environment variable $* not set.' && exit 1; fi
+
+# check if a command is available. You can use this by adding dependencies like require-command-pipenv
+require-command-%: GUARDS
+	$(if $(shell command -v ${*} 2> /dev/null),,$(error Please install `${*}`))
+
+# rules that should be run every time regardless of whether the rule name is a file that exists
+.PHONY: GUARDS
+
+# empty rules to bridge wildcard rules that shouldn't cache over to .PHONY
+GUARDS:
